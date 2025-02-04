@@ -1,5 +1,6 @@
 package com.dailycodework.dreamshops.controller;
 
+
 import com.dailycodework.dreamshops.exceptions.ResourceNotFoundException;
 import com.dailycodework.dreamshops.model.Product;
 import com.dailycodework.dreamshops.request.AddProductRequest;
@@ -42,7 +43,7 @@ public class ProductController {
         try {
             Product theProduct = productService.addProduct(product);
             return ResponseEntity.ok(new ApiResponse("Product added successfully!", theProduct));
-        } catch (Exception e) {
+        } catch (ResourceNotFoundException e) {
            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse("Failed to add product!", e.getMessage()));
         }
     }
@@ -75,7 +76,7 @@ public class ProductController {
                 return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Products not found!", "No products found with the given brand and name"));
             }
             return ResponseEntity.ok(new ApiResponse("Products fetched successfully!", products));
-        } catch (ResourceNotFoundException e) {
+        } catch (Exception e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Products not found!", e.getMessage()));
         }
     }
@@ -88,7 +89,7 @@ public class ProductController {
                 return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Products not found!", "No products found with the given category and brand"));
             }
             return ResponseEntity.ok(new ApiResponse("Products fetched successfully!", products));
-        }catch(ResourceNotFoundException e){
+        }catch(Exception e){
             return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse("Products not found!", e.getMessage()));
 
         }
@@ -102,7 +103,7 @@ public class ProductController {
                 return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Products not found!", "No products found with the given name"));
             }
             return ResponseEntity.ok(new ApiResponse("Products fetched successfully!", products));
-        }catch(ResourceNotFoundException e){
+        }catch(Exception e){
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Product not found!", e.getMessage()));
         }
     }
@@ -115,7 +116,7 @@ public class ProductController {
                 return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Products not found!", "No products found with the given brand"));
             }
             return ResponseEntity.ok(new ApiResponse("Products fetched successfully!", products));
-        }catch(ResourceNotFoundException e){
+        }catch(Exception e){
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Products not found!", e.getMessage()));
         }
     }
@@ -128,8 +129,18 @@ public class ProductController {
                 return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Products not found!", "No products found with the given category"));
             }
             return ResponseEntity.ok(new ApiResponse("Products fetched successfully!", products));
-        }catch (ResourceNotFoundException e){
+        }catch (Exception e){
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Products not found!", e.getMessage()));
+        }
+    }
+
+    @GetMapping("/product/count/by-brand/and-name")
+    public ResponseEntity<ApiResponse> countProductsByBrandAndName(@RequestParam String brand, @RequestParam String name){
+        try{
+            var productCount = productService.countProductsByBrandAndName(brand, name);
+            return ResponseEntity.ok(new ApiResponse("Product count fetched successfully!", productCount));
+        }catch(Exception e){
+            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Product count not found!", e.getMessage()));
         }
     }
 }
