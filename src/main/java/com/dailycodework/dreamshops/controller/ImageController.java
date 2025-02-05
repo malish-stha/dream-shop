@@ -32,10 +32,11 @@ public class ImageController {
     public ResponseEntity<ApiResponse> saveImages(@RequestParam List<MultipartFile> files, @RequestParam Long productId){
         try{
             List<ImageDto> imageDtos = imageService.saveImages(files, productId);
+            return ResponseEntity.ok(new ApiResponse("Images uploaded successfully!", imageDtos));
         }catch(Exception e){
             return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse("Upload failed!", e.getMessage()));
         }
-        return ResponseEntity.ok(new ApiResponse("Images uploaded successfully!", null));
+
     }
 
     @GetMapping("/image/download/{imageId}")
