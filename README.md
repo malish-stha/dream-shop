@@ -1,6 +1,6 @@
 # Dream Shops
 
-Welcome to the Dream Shops project! This application is designed to [provide a brief description of what the application does].
+Welcome to the Dream Shops project! This application is a simple implementation of spring boot e-commerce project for my learning and understanding of the framework Spring Boot.
 
 
 ## Getting Started
